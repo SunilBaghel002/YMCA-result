@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Result Portal</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f0f4f8;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .captcha {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1rem;
+    }
+
+    .captcha-box {
+      font-weight: bold;
+      background: #e2e2ff;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      letter-spacing: 2px;
+      user-select: none;
+    }
+
+    .view-btn {
+      width: 100%;
+      margin-top: 1.5rem;
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 0.75rem;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .view-btn:hover {
+      background: #0056b3;
+    }
+
+    .error {
+      color: red;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .success {
+      color: green;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .result-1, .result-2 {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.5);
+    }
+    .hidden{
+      display: none;
+    }
+    .image{
+      height: 98%;
+    }
+    @media screen and (max-width: 600px) {
+      .image{
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Student Result Portal</h2>
+  <label for="rollNo">Roll Number</label>
+  <input type="text" id="rollNo" placeholder="Enter your roll number">
+
+  <label for="semester">Semester</label>
+  <select id="semester">
+    <option value="">--Select Semester--</option>
+    <option value="1">First Semester</option>
+    <option value="2">Second Semester</option>
+    <option value="3">Third Semester</option>
+    <option value="4">Fourth Semester</option>
+    <option value="5">Fifth Semester</option>
+    <option value="6">Sixth Semester</option>
+    <option value="7">Seventh Semester</option>
+    <option value="8">Eighth Semester</option>
+  </select>
+
+  <label>Captcha</label>
+  <div class="captcha">
+    <div class="captcha-box" id="captchaCode">AB12C</div>
+    <button onclick="generateCaptcha()" type="button">↻</button>
+  </div>
+
+  <input type="text" id="captchaInput" placeholder="Enter captcha code">
+
+  <button class="view-btn" onclick="viewResult()">View Result</button>
+
+  <div id="message" class="error"></div>
+</div>
+<div class="result-1 hidden">
+  <img src="./image1.jpg" alt="" class="image">
+</div>
+<div class="result-2 hidden">
+  <img src="./image2.jpg" alt="" class="image">
+</div>
+
+<script>
+  function generateCaptcha() {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let captcha = "";
+    for (let i = 0; i < 7; i++) {
+      captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    document.getElementById("captchaCode").innerText = captcha;
+  }
+
+  function viewResult() {
+    const rollNo = document.getElementById("rollNo").value.trim();
+    const semester = document.getElementById("semester").value;
+    const captchaCode = document.getElementById("captchaCode").innerText;
+    const userCaptcha = document.getElementById("captchaInput").value.trim();
+    const message = document.getElementById("message");
+    const result1 = document.querySelector(".result-1");
+    const result2 = document.querySelector(".result-2");
+    const container = document.querySelector(".container");
+
+    if (!rollNo || !semester || !userCaptcha) {
+      message.textContent = "Please fill all fields.";
+      message.className = "error";
+      return;
+    }
+
+    if (userCaptcha !== captchaCode) {
+      message.textContent = "Captcha code does not match.";
+      message.className = "error";
+      return;
+    }
+
+    if (rollNo === "23011008002" && semester === "1") {
+      result1.classList.remove("hidden");
+      result2.classList.add("hidden");
+      container.classList.add("hidden");
+    }
+    else if (rollNo === "23011008002" && semester === "2") {
+      result2.classList.remove("hidden");
+      result1.classList.add("hidden");
+      container.classList.add("hidden");
+    }
+    else{
+      message.textContent = "Result is not out yet";
+    message.className = "error";
+    }
+    
+  }
+
+  // Generate captcha on initial load
+  generateCaptcha();
+</script>
+
+</body>
+</html>
