@@ -92,7 +92,7 @@
       font-size: 0.9rem;
     }
 
-    .result-1, .result-2 {
+    .result-1, .result-2, .result-3 {
       position: fixed;
       top: 0;
       left: 0;
@@ -112,6 +112,12 @@
     @media screen and (max-width: 600px) {
       .image{
         width: 100%;
+        height: auto;
+      }
+      .white{
+        height: 100%;
+        width: 100%;
+        background-color: white;
       }
     }
   </style>
@@ -150,9 +156,15 @@
 </div>
 <div class="result-1 hidden">
   <img src="./image1.jpg" alt="" class="image">
+  <div class="white"></div>
 </div>
 <div class="result-2 hidden">
   <img src="./image2.jpg" alt="" class="image">
+  <div class="white"></div>
+</div>
+<div class="result-3 hidden">
+  <img src="./image3.jpg" alt="" class="image">
+  <div class="white"></div>
 </div>
 
 <script>
@@ -173,6 +185,7 @@
     const message = document.getElementById("message");
     const result1 = document.querySelector(".result-1");
     const result2 = document.querySelector(".result-2");
+    const result3 = document.querySelector(".result-3");
     const container = document.querySelector(".container");
 
     if (!rollNo || !semester || !userCaptcha) {
@@ -190,11 +203,19 @@
     if (rollNo === "23011008002" && semester === "1") {
       result1.classList.remove("hidden");
       result2.classList.add("hidden");
+      result3.classList.add("hidden");
       container.classList.add("hidden");
     }
     else if (rollNo === "23011008002" && semester === "2") {
       result2.classList.remove("hidden");
       result1.classList.add("hidden");
+      result3.classList.add("hidden");
+      container.classList.add("hidden");
+    }
+    else if (rollNo === "23011008002" && semester === "3") {
+      result3.classList.remove("hidden");
+      result1.classList.add("hidden");
+      result2.classList.add("hidden");
       container.classList.add("hidden");
     }
     else{
